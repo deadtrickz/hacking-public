@@ -36,7 +36,6 @@ eth.dst == ff:ff:ff:ff:ff:ff
 
 
 ## IP
---
 
 ##### Isolate all IP packets going to [IP]
 ```
@@ -60,7 +59,6 @@ ip.id == 0x[ID]
 
 
 ## ARP
---
 
 ##### Find [IP] and [MAC] corralation using arp
 ```
@@ -89,7 +87,6 @@ arp.opcode == 2 && arp.dst.proto_ipv4 == [IP]
 
 
 ## ICMP
---
 
 ##### show icmp packets
 ```
