@@ -1,6 +1,4 @@
 # Hax0r Framework
----
----
 
 ```
             /\
