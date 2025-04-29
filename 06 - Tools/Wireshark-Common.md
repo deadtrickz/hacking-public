@@ -1,8 +1,7 @@
 # Wireshark Commands
 - Useful Commands
 
-
-## ETH
+### ETH
 
 ##### Isolate Traffic coming from [IP] at the the Ethernet layer
 ```
@@ -35,7 +34,11 @@ eth.dst == ff:ff:ff:ff:ff:ff
 ```
 
 
-## IP
+___
+___
+
+
+### IP
 
 ##### Isolate all IP packets going to [IP]
 ```
@@ -58,7 +61,11 @@ ip.id == 0x[ID]
 ```
 
 
-## ARP
+___
+___
+
+
+### ARP
 
 ##### Find [IP] and [MAC] corralation using arp
 ```
@@ -86,7 +93,11 @@ arp.opcode == 2 && arp.dst.proto_ipv4 == [IP]
 ```
 
 
-## ICMP
+---
+---
+
+
+### ICMP
 
 ##### show icmp packets
 ```

@@ -8,6 +8,11 @@ administrator:administrator
 admin:admin
 ```
 
+
+---
+---
+
+
 ## Enumeration
 
 ##### Banner Grabbing
@@ -56,11 +61,6 @@ run
 
 ## Exploitation
 
-##### NSE & Common Vulnerabilities
-```sh
-nmap --script=ftp-anon,ftp-libopie,ftp-proftpd-backdoor,ftp-vsftpd-backdoor,ftp-vuln-cve2010-4221,tftp-enum -p 21 [IP]
-```
-
 ##### Anonymous Login
 - When prompted for a password, use anonymous or try something random.
 ```sh
@@ -68,7 +68,7 @@ ftp anonymous@[IP]
 ```
 
 ### Hydra
-- Use "-V" to print each login attempt
+- Use -V to print each login attempt
 #### User List and Password List, Port Flexible
 ```sh
 hydra -t 1 -L [Username_List] -P [Password_list] -vV ftp://[IP]:[PORT]
