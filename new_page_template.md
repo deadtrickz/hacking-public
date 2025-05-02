@@ -38,7 +38,7 @@ code
 [Space]
 [Space]
 ## Sub Heading 4
-| column1| column2|
-|:---|:---|
-|command| Description|
-|command| Description|
+| column1 | column2     |
+| :------ | :---------- |
+| command | Description |
+| command | Description |

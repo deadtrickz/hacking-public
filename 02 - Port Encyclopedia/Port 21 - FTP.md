@@ -2,55 +2,51 @@
 - File Transfer Protocol
 
 ##### Default Credentials
-```
+```bash
 anonymous:anonymous
 administrator:administrator
 admin:admin
 ```
 
-
----
----
-
-
 ## Enumeration
 
 ##### Banner Grabbing
 - netcat
-```
+```bash
 nc -vn [IP] 21
 ```
 
 - telnet
-```
+```bash
 telnet [IP]
 ```
 
 - nmap
-```
+```bash
 nmap -sC -sV -p21 [IP]
 ```
 
-##### Nmap Scanning
-- Script Enumeration
-```
+### Nmap
+
+##### Script Enumeration
+```bash
 nmap --script=ftp-anon,ftp-bounce,ftp-libopie,ftp-proftpd-backdoor,ftp-vsftpd-backdoor,ftp-vuln-cve2010-4221,tftp-enum -p 21 [IP]
 ```
 
-- Vulnerability Scanning with all ftp scripts
-```
+##### all ftp scripts
+```bash
 nmap --script=ftp-* -p 21 [IP]
 ```
 
-- FTP Anonymous Enumeration
-```
+##### Anonymous Enumeration
+```bash
 nmap -p 21 --script ftp-anon [IP]
 ```
 
-##### Metasploit
-```
+### Metasploit
+```bash
 use auxiliary/scanner/ftp/anonymous
-set rhosts [Target IP]
+set rhosts [IP]
 run
 ```
 
@@ -62,7 +58,6 @@ run
 ## Exploitation
 
 ##### Anonymous Login
-- When prompted for a password, use anonymous or try something random.
 ```sh
 ftp anonymous@[IP]
 ```

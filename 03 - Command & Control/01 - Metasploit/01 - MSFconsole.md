@@ -1,44 +1,13 @@
-# Name of the Page
+# Metasploit
 
-## Use Case and General Information
-
-
----
----
-[Space]
-[Space]
-## Enumeration
-
-#####  Idea or Action Under Enumeration
-```
-code
+## Usage
+```bash
+msfconsole
 ```
 
-#####  Idea or Action Under Enumeration
-```
-code
-```
-
-
-___
----
-[Space]
-[Space]
-## Exploitation
-
-
-#####  Idea or Action Under Exploitation
-```
-code
+##### NEVER USE
+```bash
+msfconsole -q
 ```
 
-
----
----
-[Space]
-[Space]
-## Sub Heading 4
-| column1| column2|
-|:---|:---|
-|command| Description|
-|command| Description|
+## No Cow, No Go

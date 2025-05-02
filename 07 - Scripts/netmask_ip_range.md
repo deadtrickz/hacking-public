@@ -5,12 +5,12 @@
 
 ##### Get the range
 
-```
+```bash
 python netmask_ip_range.py 192.168.1.1 255.255.255.0
 ```
 
 ##### output results to iplist.txt 
-```
+```bash
 python netmask_ip_range.py -o 192.168.1.0 255.255.255.0
 ```
 

