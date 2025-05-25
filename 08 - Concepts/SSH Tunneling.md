@@ -5,58 +5,84 @@
 	- Dynamic Port Forwarding  
 
 ##### Example Network:
-- PC1: your local machine  
-- PC2: accessible by PC1 via SSH  
+- ATK: Attack Platform
+- PC1: accessible from ATK via SSH   
+- PC2: accessible from PC1 
 - PC3: accessible from PC2  
 - PC4: only accessible from PC3  
 
-## Local Port Forwarding
-- Used to access a service from PC1 that is only reachable from a machine further down the chain (e.g., PC4).
-	- Traffic flows from PC1 to a local port  
-	- Then forwarded to a destination only accessible through remote machines  
-	- Useful when a service is behind multiple layers and you want to access it locally  
+## Local Port Forwarding (-L)
+- the -L section `4445:192.168.1.20:445` is actually `127.0.0.1:4445:192.168.1.20:445`
+	- the 127.0.0.1 is implied but can be changed to a specific interface IP on your local machine.
 
-### Example: PC1 wants to access a service running on PC4
+### Using Jumps (-J)
+##### Command
 
-##### Command on PC1
 ```
-ssh -L [PC1_Local_Port]:PC3:[PC2_Destination_Port] [USER]@[IP_of_PC2]
+ssh -L [127.0.0.1:]4445:[PC4_IP]:445 -J [PC1_USER]@[PC1_IP]:22,[PC2_USER]@[PC2_IP]:2222 [PC3_USER]@[PC3_IP] -p 22
 ```
 
-##### Command inside PC2 session
+### Stacking Tunnels (PC1 as a foothold)
+
+##### ATK to PC1 -> PC2
 ```
-ssh -L [PC2_Local_Port]:PC4:[PC3_Destination_Port] [USER]@[IP_of_PC3]
+ssh -N -L 2222:[PC2_IP]:22 [PC1_USER]@[PC1_IP] -p 8888
 ```
-
-- PC1 connects to localhost:[PC1_Local_Port]  
-- Tunnel flows PC1 → PC2 → PC3 → PC4  
-
-
-## Remote Port Forwarding
-- Used to expose a local service from PC1 so that a machine further down the chain (e.g., PC4) can reach it.
-	- Opens a port on a remote machine  
-	- Forwards that port to a service on PC1  
-	- Useful when the destination cannot initiate a connection back to PC1 directly  
-
-### Example: PC4 needs to access a web server on PC1
-
-##### Command on PC1
+##### ATK -> (PC1->PC2) -> PC3
 ```
-ssh -R [PC2_Port]:localhost:[PC1_Local_Port] [USER]@[IP_of_PC2]
+ssh -N -L 3333:[PC3_IP]:22 [PC2_USER]@127.0.0.1 -p 2222
+```
+##### ATK to PC3 SSH
+```
+ssh [PC3_USER]@127.0.0.1 -p 3333 
 ```
 
-##### Command on PC2
+
+---
+---
+
+
+## Remote Port Forwarding (`-R`)
+- The `-R` section `4444:192.168.1.1:4444` is actually `127.0.0.1:4444:192.168.1.1:4444` 
+	- the 127.0.0.1 is the remote localhost and the IP is where the data is sent to
+	- 0.0.0.0 must be used if options like "GatewayPorts=yes" are used (multiple NICs)
+
+### Using Jumps (`-J`)
+#### Command
 ```
-ssh -R [PC3_Port]:localhost:[PC2_Port] [USER]@[IP_of_PC3]
+ssh -v -N -o GatewayPorts=yes -J [PC1_USER]@[PC1_IP]:22,[PC2_USER]@[PC2_IP]:2222,[PC3_USER]@[PC3_IP]:22 [PC4_USER]@[PC4_IP] -p 22 -R 0.0.0.0:4444:[ATK_IP]:4444
 ```
 
-##### Command on PC3
+### Stacking Tunnels (PC1 as a foothold)
+##### Initial Tunnel to PC1:2222 -> PC2:22
 ```
-ssh -R [PC4_Port]:localhost:[PC3_Port] [USER]@[IP_of_PC4]
+ssh -N -L 2222:[PC2_IP]:22 [PC1_USER]@[PC1_IP] -p 8888
+```
+##### Tunnel from PC2:3333 -> PC3:22
+```
+ssh -N -L 3333:[PC3_IP]:22 [PC2_USER]@127.0.0.1 -p 2222
+```
+##### Tunnel from PC3:4445 -> PC4:445
+```
+ssh -N -L 4444:[PC4_IP]:445 [PC3_USER]@127.0.0.1 -p 3333
 ```
 
-- PC4 connects to localhost:[PC4_Port]  
-- Tunnel flows PC4 → PC3 → PC2 → PC1  
+##### Reverse Tunnel
+```
+ssh -N -R 4444:127.0.0.1:4444 [PC3_USER]@127.0.0.1 -p 3333
+```
+
+##### Metasploit Info
+```
+RHOSTS 127.0.0.1
+RPORT 4444
+LHOST [PC3_IP]
+LPORT 4444
+```
+
+
+---
+---
 
 
 ## Dynamic Port Forwarding
@@ -65,17 +91,52 @@ ssh -R [PC4_Port]:localhost:[PC3_Port] [USER]@[IP_of_PC4]
 	- Routes outbound traffic dynamically through SSH chain  
 	- Useful for web browsing or accessing any remote-hosted service through PC4's network  
 
-### Example: PC1 uses a SOCKS proxy to route traffic through PC2 → PC3 → PC4
-
-##### Command on PC1
+### Using Jump (-J)
+##### Command
 ```
 ssh -D [PC1_Local_Port] -J [USER]@[IP_of_PC2],[USER]@[IP_of_PC3],[USER]@[IP_of_PC4] [USER]@[IP_of_PC4]
 ```
 
-- SOCKS proxy is available at localhost:[PC1_Local_Port]  
-- Configure browser or apps to use it as a proxy  
+### Stacking Tunnels (PC1 as a foothold)
+
+##### ATK -> PC1 -> PC2
+```
+ssh -N -L 2222:[PC2_IP]:22 [PC1_USER]@[PC1_IP] -p 8888
+```
+##### PC2 -> PC3
+```
+ssh -N -L 3333:[PC3_IP]:22 [PC2_USER]@127.0.0.1 -p 2222
+```
+##### PC3 -> PC4
+```
+ssh -N -L 4444:[PC4_IP]:445 [PC3_USER]@127.0.0.1 -p 3333
+```
+
+##### Dynamic Forward
+```
+ssh -N -D 1080 [PC3_USER]@127.0.0.1 -p 3333
+```
 
 
+### Stacking Tunnels (Reverse) (PC1 as a foothold)
+
+##### ATK to PC1 -> PC2
+```
+ssh -N -L 2222:[PC2_IP]:22 [PC1_USER]@[PC1_IP] -p 8888
+```
+##### PC2: -> PC3
+```
+ssh -N -L 3333:[PC3_IP]:22 [PC2_USER]@127.0.0.1 -p 2222
+```
+##### PC3 -> PC4
+```
+ssh -N -L 4444:[PC4_IP]:445 [PC3_USER]@127.0.0.1 -p 3333
+```
+
+##### Reverse Tunnel
+```
+ssh -N -D 1080 [PC3_USER]@127.0.0.1 -p 3333
+```
 ## Which to Use
 
 - Local Port Forwarding  
