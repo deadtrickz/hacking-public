@@ -89,8 +89,11 @@ LPORT 4444
 - Used to create a local SOCKS proxy that dynamically routes traffic through multiple SSH hosts.
 	- Creates a SOCKS proxy on PC1  
 	- Routes outbound traffic dynamically through SSH chain  
-	- Useful for web browsing or accessing any remote-hosted service through PC4's network  
-
+	- Useful for web browsing or accessing any remote-hosted service through PC4's network 
+##### Proxychains
+- nmap -A/icmp/arp will NOT work with proxychains
+- proxychains nmap commands must be ran as root user with nmap -sT -n
+- `proxychains telnet/nc IP PORT` is the most reliable way to connect to a port with proxychains
 ### Using Jump (-J)
 ##### Command
 ```

