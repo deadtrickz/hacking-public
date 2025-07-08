@@ -129,6 +129,7 @@ cleopatra:desire
 
 ##### Testing ftp with credentials
 - credentials work but ftp isn't configured
+
 ![Pasted image 20250604113758](../zzAttachments/Pasted%20image%2020250604113758.png)
 
 ##### Testing ssh with credentials
