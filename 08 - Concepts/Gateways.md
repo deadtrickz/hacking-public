@@ -1,25 +1,12 @@
 # Gateways
 
-[User Device]
-192.168.1.100
-     |
-     v
-[Default Gateway]
-192.168.1.1
-(NAT occurs here)
-     |
-     v
-[Gateway of Last Resort]
-(used if no specific route exists)
-     |
-     v
-[ISP Router]
-Public IP assigned by ISP
-     |
-     v
-[Internet]
-(External websites, servers, services)
-
+| Device                                  | Function                                      |
+| --------------------------------------- | --------------------------------------------- |
+| User Device                             | (192.168.1.100)                               |
+| Default Gateway                         | (192.168.1.1) (NAT occurs)                    |
+| Gateway of Last Resort<br>Default Route | (used if no specific route exists)<br>0.0.0.0 |
+| ISP Router                              | (public IP assigned by the ISP)               |
+| Internet                                | (websites, servers, services)                 |
 
 
 ## Overview
@@ -35,7 +22,7 @@ Public IP assigned by ISP
 - NAT (Network Address Translation): A method used to translate private IP addresses into public ones.
 - Proxy Gateway: Acts as an intermediary between clients and servers, often used for filtering or anonymity.
 
-## How Gateway Routing Works (Step-by-Step)
+## How Gateway Routing Works
 
 1. A device on the local network wants to send data to an IP outside its own subnet.
 2. The device checks its routing table and sees that the destination is not local.
@@ -44,7 +31,7 @@ Public IP assigned by ISP
 5. The router checks its routing table for a matching route.
 6. If a specific route is found, it forwards the packet to the next hop or destination.
 7. If no route is found, the router uses the Gateway of Last Resort.
-8. If the router is also a NAT device, it performs address translation (private IP → public IP).
+8. If the router is also a NAT device, it performs address translation (private IP -> public IP).
 9. The packet is sent to the internet or the target external network.
 10. When the destination responds, the process is reversed:
     - The packet is received at the public IP

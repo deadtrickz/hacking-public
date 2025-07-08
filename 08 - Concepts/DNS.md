@@ -7,14 +7,14 @@
 
 ## Key Components
 
-| Component               | Description |
-|-------------------------|-------------|
-| **Domain Name**         | The human-readable address that is mapped to an IP address (e.g., `example.com`). |
-| **DNS Resolver**        | A client that queries DNS servers to resolve domain names into IP addresses. |
-| **DNS Server**          | A server that holds and provides domain name records to clients. |
-| **DNS Records**         | Entries in DNS servers that map domain names to IP addresses and other data (e.g., `A`, `MX`, `NS`). |
-| **Root DNS Servers**    | The highest-level DNS servers, which direct queries to other DNS servers in the hierarchy. |
-| **Authoritative DNS Server** | The server that provides the definitive answer for a domain name query. |
+| Component                    | Description                                                                                    |
+| ---------------------------- | ---------------------------------------------------------------------------------------------- |
+| **Domain Name**              | The human-readable address that is mapped to an IP address (`example.com`).                    |
+| **DNS Resolver**             | A client that queries DNS servers to resolve domain names into IP addresses.                   |
+| **DNS Server**               | A server that holds and provides domain name records to clients.                               |
+| **DNS Records**              | Entries in DNS servers that map domain names to IP addresses and other data (`A`, `MX`, `NS`). |
+| **Root DNS Servers**         | The highest-level DNS servers, which direct queries to other DNS servers in the hierarchy.     |
+| **Authoritative DNS Server** | The server that provides the definitive answer for a domain name query.                        |
 
 
 ## How DNS Works
@@ -29,16 +29,16 @@
 
 ## DNS Records
 
-| Record Type   | Description |
-|---------------|-------------|
-| **A Record**  | Maps a domain name to an IPv4 address (e.g., `example.com` → `192.0.2.1`). |
-| **AAAA Record** | Maps a domain name to an IPv6 address. |
-| **MX Record** | Specifies mail servers responsible for receiving email for a domain. |
-| **CNAME Record** | An alias record that points to another domain name (e.g., `www.example.com` → `example.com`). |
-| **NS Record** | Indicates which name servers are authoritative for the domain. |
-| **PTR Record** | Used for reverse DNS lookups, mapping an IP address to a domain name. |
-| **TXT Record** | Allows for arbitrary text entries, often used for verification (e.g., SPF or DKIM). |
-| **SOA Record** | Start of Authority, providing administrative information about the domain. |
+| Record Type      | Description                                                                                    |
+| ---------------- | ---------------------------------------------------------------------------------------------- |
+| **A Record**     | Maps a domain name to an IPv4 address (e.g., `example.com` -> `192.0.2.1`).                    |
+| **AAAA Record**  | Maps a domain name to an IPv6 address.                                                         |
+| **MX Record**    | Specifies mail servers responsible for receiving email for a domain.                           |
+| **CNAME Record** | An alias record that points to another domain name (e.g., `www.example.com` -> `example.com`). |
+| **NS Record**    | Indicates which name servers are authoritative for the domain.                                 |
+| **PTR Record**   | Used for reverse DNS lookups, mapping an IP address to a domain name.                          |
+| **TXT Record**   | Allows for arbitrary text entries, often used for verification (e.g., SPF or DKIM).            |
+| **SOA Record**   | Start of Authority, providing administrative information about the domain.                     |
 
 
 ## Types of DNS Servers
@@ -81,11 +81,11 @@
 
 ## Common DNS Commands
 
-| Command                          | Description |
-|-----------------------------------|-------------|
-| **nslookup [domain]**             | Look up DNS information for a domain. |
-| **dig [domain]**                  | Query DNS records for a domain. |
-| **dig @[DNS_SERVER] [domain]**    | Query a specific DNS server for a domain. |
-| **host [domain]**                 | Perform a simple DNS lookup. |
-| **dnsrecon -d [domain]**          | Perform DNS reconnaissance for a domain. |
+| Command                        | Description                               |
+| ------------------------------ | ----------------------------------------- |
+| **nslookup [domain]**          | Look up DNS information for a domain.     |
+| **dig [domain]**               | Query DNS records for a domain.           |
+| **dig @[DNS_SERVER] [domain]** | Query a specific DNS server for a domain. |
+| **host [domain]**              | Perform a simple DNS lookup.              |
+| **dnsrecon -d [domain]**       | Perform DNS reconnaissance for a domain.  |
 
