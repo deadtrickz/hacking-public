@@ -1,6 +1,6 @@
 # Hax0r Framework
 
-Disclaimer: This repository is intended for personal reference only. The content is meant to support ethical and legal testing. I am not responsible for any misuse or illegal activity conducted using the information provided here.
+**Disclaimer: This repository is intended for PERSONAL REFERENCE ONLY. The content is meant to support ETHICAL and LEGAL TESTING. I am not responsible for any misuse or illegal activity conducted using ANYTHING provided ANYWHERE in this repository. I do not claim ownership of any information, everything can be found in documentation or though open source means/materials.**
 
 ```
             /\
