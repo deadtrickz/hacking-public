@@ -381,5 +381,7 @@ sc_start havoc 192.168.56.11
 ![](../../../../zzAttachments/Pasted%20image%2020250903143458.png)
 
 ### Own the Winterfell DC
-
+- I already have a system callback so it's already owned BUT now we need to get to the other 2 DCs....
+- My experience with havoc has been rough, It hasn't been updated in over a year due to the new paid model
+- I may come back to this and complete the entire domain if "Havoc Pro" does well, but for now I'm done.
 
